@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using NBT.Exceptions;
+using System.Collections;
 using System.Text;
 
 namespace NBT
@@ -6,6 +7,28 @@ namespace NBT
     public sealed class NBTCompound : IEnumerable, IEnumerable<KeyValuePair<string, NBTToken>>, IReadOnlyDictionary<string, NBTToken>
     {
         private readonly Dictionary<string, NBTToken> dictionary;
+
+        /// <summary>
+        /// Check if the string key is valid.
+        /// </summary>
+        /// <remarks>
+        /// The key must be between 1 and 32 characters long, and must not contain any whitespace characters or special characters except for the following: '_', '+', '-', '.'.
+        /// </remarks>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static bool IsStringKeyValid(string key)
+        {
+            if (key.Length == 0 || key.Length > 32)
+                return false;
+            foreach (char c in key)
+            {
+                if (char.IsWhiteSpace(c))
+                    return false;
+                if (!(char.IsLetterOrDigit(c) || c == '_' || c == '+' || c == '-' || c == '.'))
+                    return false;
+            }
+            return true;
+        }
 
         public NBTCompound()
         {
@@ -26,21 +49,29 @@ namespace NBT
 
         public void Add(string key, NBTToken value)
         {
+            if (!IsStringKeyValid(key))
+                throw new NBTCompoundInvalidKeyFormatException(key);
             dictionary.Add(key, value);
         }
 
         public void Add(string key, NBTValue value)
         {
+            if (!IsStringKeyValid(key))
+                throw new NBTCompoundInvalidKeyFormatException(key);
             dictionary.Add(key, value);
         }
 
         public bool TryAdd(string key, NBTToken value)
         {
+            if (!IsStringKeyValid(key))
+                throw new NBTCompoundInvalidKeyFormatException(key);
             return dictionary.TryAdd(key, value);
         }
 
         public bool TryAdd(string key, NBTValue value)
         {
+            if (!IsStringKeyValid(key))
+                throw new NBTCompoundInvalidKeyFormatException(key);
             return dictionary.TryAdd(key, value);
         }
 

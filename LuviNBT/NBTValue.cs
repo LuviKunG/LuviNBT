@@ -306,6 +306,10 @@ namespace NBT
 
         public override string ToString()
         {
+            if (type == NBTValueType.String)
+            {
+                return $"\"{GetValue()}\"";
+            }
             return GetValue().ToString()!;
         }
     }
