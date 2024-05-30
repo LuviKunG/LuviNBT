@@ -40,28 +40,43 @@ namespace NBT.Parser
 
         private static string ToStringCompound(NBTCompound compound)
         {
-            StringBuilder builder = new("{");
-            foreach (KeyValuePair<string, NBTToken> pair in compound)
+            if (compound.Count > 0)
             {
-                builder.Append(pair.Key);
-                builder.Append(':');
-                builder.Append(Parse(pair.Value));
-                builder.Append(',');
+                StringBuilder builder = new("{");
+                foreach (KeyValuePair<string, NBTToken> pair in compound)
+                {
+                    builder.Append(pair.Key);
+                    builder.Append(':');
+                    builder.Append(Parse(pair.Value));
+                    builder.Append(',');
+                }
+                builder[^1] = '}';
+                return builder.ToString();
             }
-            builder[^1] = '}';
-            return builder.ToString();
+            else
+            {
+                return "{}";
+            }
         }
 
         private static string ToStringList(NBTList list)
         {
-            StringBuilder builder = new("[");
-            foreach (NBTToken token in list)
+            if (list.Count > 0)
             {
-                builder.Append(Parse(token));
-                builder.Append(',');
+                StringBuilder builder = new("[");
+                foreach (NBTToken token in list)
+                {
+                    builder.Append(Parse(token));
+                    builder.Append(',');
+                }
+                builder[^1] = ']';
+                return builder.ToString();
             }
-            builder[^1] = ']';
-            return builder.ToString();
+            else
+            {
+
+                return "[]";
+            }
         }
     }
 }
