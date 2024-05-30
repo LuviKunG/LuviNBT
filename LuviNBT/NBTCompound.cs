@@ -29,7 +29,17 @@ namespace NBT
             dictionary.Add(key, value);
         }
 
+        public void Add(string key, NBTValue value)
+        {
+            dictionary.Add(key, value);
+        }
+
         public bool TryAdd(string key, NBTToken value)
+        {
+            return dictionary.TryAdd(key, value);
+        }
+
+        public bool TryAdd(string key, NBTValue value)
         {
             return dictionary.TryAdd(key, value);
         }
@@ -71,11 +81,13 @@ namespace NBT
             foreach (KeyValuePair<string, NBTToken> member in dictionary)
             {
                 builder.Append(member.Key);
-                builder.Append(':');
+                builder.Append(": ");
                 builder.Append(member.Value);
-                builder.Append(',');
+                builder.Append(", ");
             }
-            builder[builder.Length - 1] = '}';
+            if (builder.Length > 1)
+                builder.Length -= 2;
+            builder.Append('}');
             return builder.ToString();
         }
     }

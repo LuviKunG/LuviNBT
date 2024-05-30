@@ -24,6 +24,11 @@ namespace NBT
             list.Add(token);
         }
 
+        public void Add(NBTValue value)
+        {
+            list.Add(value);
+        }
+
         public void AddRange(IEnumerable<NBTToken> tokens)
         {
             list.AddRange(tokens);

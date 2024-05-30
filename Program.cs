@@ -3,6 +3,11 @@ using NBT.Parser;
 
 static class Program
 {
+    /// <summary>
+    /// Entry point for console.
+    /// </summary>
+    /// <param name="args"></param>
+    /// <returns></returns>
     static int Main(string[] args)
     {
         // Example code to create NBT values.
@@ -14,11 +19,6 @@ static class Program
         NBTValue floatValue = new(20.0f);
         NBTValue doubleValue = new(15.0d);
         NBTValue stringValue = new("\'\'LuviKunG\"\"");
-        NBTCompound compound = new()
-        {
-            {"test1", new NBTValue(123)},
-            {"test2", new NBTValue((short)456)}
-        };
         // Print the values.
         Console.WriteLine(byteValue);
         Console.WriteLine(boolValue);
@@ -28,7 +28,24 @@ static class Program
         Console.WriteLine(floatValue);
         Console.WriteLine(doubleValue);
         Console.WriteLine(stringValue);
+
+        // Example code to create NBT Compound and list.
+        NBTCompound compound = new()
+        {
+            {"test1", 123},
+            {"test2", (short)456}
+        };
+        compound.Add("test3", (long)789);
+        NBTList list = new()
+        {
+            123,
+            (short)456
+        };
+        list.Add((long)789);
+        Console.WriteLine(compound);
         Console.WriteLine(NBTParser.Parse(compound));
+        Console.WriteLine(list);
+        Console.WriteLine(NBTParser.Parse(list));
         return 0;
     }
 }
